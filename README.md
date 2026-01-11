@@ -81,7 +81,7 @@ IF (Screenshot Present?)
 - Includes a link or reference to the screenshot
 - Avoids AI usage for predictable behavior
 
-
+![github](/resources/githubexample1-1.png)
 ![github](/resources/github_example1-2.png)
 ![github](/resources/github_example1-3.png)
 
