@@ -30,7 +30,6 @@ This repository documents a self-hosted n8n setup that automatically creates Git
 ## Workflow Logic
 
 ```
-
 Google Sheets Trigger (Row Added)
   ↓
 IF (Screenshot Present?)
