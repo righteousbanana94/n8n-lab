@@ -5,7 +5,7 @@ services:
     ports:
       - "127.0.0.1:5678:5678"
     environment:
-      - N8N_ENCRYPTION_KEY=<n8n_encryption_key_here
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
       - N8N_SECURE_COOKIE=false
       - N8N_DIAGNOSTICS_ENABLED=false
     volumes:
