@@ -58,7 +58,7 @@ IF (Screenshot Present?)
 - Trigger type: When row is added
 - Source: Google Form–linked spreadsheet
 - Acts as the workflow entry point
-
+#### Form screenshots
 ![form1-1](/resources/form_example1-1.png)
 ![form1-2](/resources/form_example1-2.png)
 
@@ -80,6 +80,8 @@ IF (Screenshot Present?)
 - Creates the issue using parsed form data
 - Includes a link or reference to the screenshot
 - Avoids AI usage for predictable behavior
+
+#### Examples
 
 ![github](/resources/githubexample1-1.png)
 ---
