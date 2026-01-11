@@ -1,0 +1,22 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      - N8N_ENCRYPTION_KEY=59aba88f00a8043b3389fff86956cdc79c0a814a8875655cf98caa9993e53c67
+      - N8N_SECURE_COOKIE=false
+      - N8N_DIAGNOSTICS_ENABLED=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - dns_ai
+
+volumes:
+  n8n_data:
+
+networks:
+  dns_ai:
+    external: true
+    name: dns-ai_default
