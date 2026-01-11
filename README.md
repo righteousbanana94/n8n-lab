@@ -82,7 +82,11 @@ IF (Screenshot Present?)
 - Avoids AI usage for predictable behavior
 
 ![github](/resources/githubexample1-1.png)
+---
+
 ![github](/resources/github_example1-2.png)
+---
+
 ![github](/resources/github_example1-3.png)
 
 ### Non-Screenshot Path (No Image Present)
