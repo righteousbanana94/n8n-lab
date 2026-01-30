@@ -35,8 +35,8 @@ services:
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_HOST=n8n.danstackio.com
       - N8N_PROTOCOL=https
-      - WEBHOOK_URL=https://n8n.danstackio.com
-      - N8N_EDITOR_BASE_URL=https://n8n.danstackio.com
+      - WEBHOOK_URL=<your_webhook_url>
+      - N8N_EDITOR_BASE_URL=<your_editor_base_url>
     labels:
       - "traefik.enable=true"
 
@@ -47,7 +47,7 @@ services:
       - "traefik.http.services.n8n.loadbalancer.server.port=5678"
 
       # NEW: HTTP -> HTTPS redirect
-      - "traefik.http.routers.n8n-http.rule=Host(`n8n.danstackio.com`)"
+      - "traefik.http.routers.n8n-http.rule=Host(`<your_redirect_host>`)"
       - "traefik.http.routers.n8n-http.entrypoints=web"
       - "traefik.http.routers.n8n-http.middlewares=n8n-https-redirect"
       - "traefik.http.middlewares.n8n-https-redirect.redirectscheme.scheme=https"
