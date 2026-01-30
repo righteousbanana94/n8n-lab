@@ -1,18 +1,61 @@
 services:
+  reverse_proxy:
+    image: traefik:v3.1
+    restart: unless-stopped
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=YOUR_REAL_EMAIL_HERE"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/acme.json:/letsencrypt/acme.json
+    networks:
+      - dns_ai
   n8n:
     image: n8nio/n8n:latest
     restart: unless-stopped
     ports:
       - "127.0.0.1:5678:5678"
+      - "18888:18888"
     environment:
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
-      - N8N_SECURE_COOKIE=false
+      - N8N_SECURE_COOKIE=true
       - N8N_DIAGNOSTICS_ENABLED=false
+      - N8N_HOST=n8n.danstackio.com
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n.danstackio.com
+      - N8N_EDITOR_BASE_URL=https://n8n.danstackio.com
+    labels:
+      - "traefik.enable=true"
+
+      # HTTPS router (you already have these)
+      - "traefik.http.routers.n8n.rule=Host(`n8n.danstackio.com`)"
+      - "traefik.http.routers.n8n.entrypoints=websecure"
+      - "traefik.http.routers.n8n.tls.certresolver=letsencrypt"
+      - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+
+      # NEW: HTTP -> HTTPS redirect
+      - "traefik.http.routers.n8n-http.rule=Host(`n8n.danstackio.com`)"
+      - "traefik.http.routers.n8n-http.entrypoints=web"
+      - "traefik.http.routers.n8n-http.middlewares=n8n-https-redirect"
+      - "traefik.http.middlewares.n8n-https-redirect.redirectscheme.scheme=https"
+
     volumes:
       - n8n_data:/home/node/.n8n
     networks:
       - dns_ai
-
 volumes:
   n8n_data:
 
